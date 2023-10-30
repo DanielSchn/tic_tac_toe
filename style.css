@@ -30,6 +30,7 @@ table {
     text-align: center;
     font-size: 56px;
     font-weight: bold;
+    cursor: pointer;
   }
 
 
@@ -50,4 +51,9 @@ table {
 
   table tr td:last-child {
     border-right: 0;
+  }
+
+
+  td:hover {
+    background-color: rgba(255, 255, 255, 0.2);
   }

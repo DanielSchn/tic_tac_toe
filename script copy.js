@@ -1,7 +1,7 @@
 let fields = [
     null,
-    null,
-    null,
+    'cross',
+    'circle',
     null,
     null,
     null,
@@ -13,8 +13,6 @@ let fields = [
 
 const crossCircleWidth = 56;
 const crossCircleHeight = 56;
-let currentPlayer = 'cross';
-
 
 function init(){
     render();
@@ -29,7 +27,7 @@ function render() {
     for (let i = 0; i < 3; i++) {
         tableHTML += '<tr>';
         for (let j = 0; j < 3; j++) {
-            tableHTML += '<td onclick="cellClick(' + (i * 3 + j) + ')">';
+            tableHTML += '<td>';
             const index = i * 3 + j;
             if (fields[index] === 'cross') {
                 tableHTML += generateCrossSVG();
@@ -40,47 +38,9 @@ function render() {
         }
         tableHTML += '</tr>';
     }
-    tableHTML += '</table';
+    tableHTML += '</table>';
 
     content.innerHTML = tableHTML;
-}
-
-
-function cellClick(index) {
-    if (fields[index] === null) {
-        if (currentPlayer === 'cross') {
-            fields[index] = 'cross';
-            currentPlayer = 'circle';
-        } else {
-            fields[index] = 'circle';
-            currentPlayer = 'cross';
-        }
-        renderCell(index);
-    }
-}
-
-// Alternative Schreibweise für die cellClick() IF / ELSE Schreibweise; Die Zeile 4 dieser Funktion sagt das gleiche aus wie eine IF / ELSE Funktion
-
-// function cellClick(index) {
-//     if (fields[index] === null) {
-//         fields[index] = currentPlayer;
-//         currentPlayer = (currentPlayer === 'cross') ? 'circle' : 'cross';
-//         renderCell(index);
-//     }
-// }
-
-
-function renderCell(index) {
-    const cell = document.getElementsByTagName('td')[index];
-
-    if (fields[index] === 'cross') {
-        cell.innerHTML = generateCrossSVG();
-    } else if (fields[index] === 'circle') {
-        cell.innerHTML = generateCircleSVG();
-    }
-    
-    // Entferne das onclick-Attribut, um weitere Klicks zu verhindern
-    cell.removeAttribute('onclick');
 }
 
 
