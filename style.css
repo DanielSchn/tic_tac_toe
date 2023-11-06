@@ -10,6 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 75vh;
+    position: relative;
 }
 
 
@@ -57,3 +58,11 @@ table {
   td:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
+
+
+  .winning-line {
+    position: absolute;
+    border-top: 7px solid white;
+    transform-origin: 0 0;
+    pointer-events: none; /* Verhindert, dass Klicks auf die Linie reagieren */
+}

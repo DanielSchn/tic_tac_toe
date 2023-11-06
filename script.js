@@ -10,6 +10,17 @@ let fields = [
     null
 ];
 
+const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
+
 
 const crossCircleWidth = 56;
 const crossCircleHeight = 56;
@@ -18,6 +29,26 @@ let currentPlayer = 'cross';
 
 function init(){
     render();
+}
+
+
+function checkGameEnd() {
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (fields[a] && fields[a] === fields[b] && fields[a] === fields[c]) {
+            // Das Spiel ist beendet, es gibt einen Gewinner
+            drawWinningLine(combination);
+            return true;
+        }
+    }
+
+    // Überprüfen, ob es ein Unentschieden gibt
+    if (!fields.includes(null)) {
+        // Das Spiel endet unentschieden
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -56,18 +87,14 @@ function cellClick(index) {
             currentPlayer = 'cross';
         }
         renderCell(index);
+
+        // Nach jedem Zug überprüfen, ob das Spiel vorbei ist
+        if (checkGameEnd()) {
+            // Hier kannst du weitere Aktionen ausführen, z.B. das Spiel neu starten oder eine Meldung anzeigen
+            console.log('Das Spiel ist beendet.');
+        }
     }
 }
-
-// Alternative Schreibweise für die cellClick() IF / ELSE Schreibweise; Die Zeile 4 dieser Funktion sagt das gleiche aus wie eine IF / ELSE Funktion
-
-// function cellClick(index) {
-//     if (fields[index] === null) {
-//         fields[index] = currentPlayer;
-//         currentPlayer = (currentPlayer === 'cross') ? 'circle' : 'cross';
-//         renderCell(index);
-//     }
-// }
 
 
 function renderCell(index) {
@@ -107,4 +134,49 @@ function generateCircleSVG() {
       <animate attributeName="stroke-dasharray" from="0 157" to="157 157" dur="250ms" begin="0s" fill="freeze" />
     </circle>
   </svg>`;
+}
+
+
+// function drawWinningLine(a, b, c) {
+//     const table = document.getElementsByTagName('table')[0];
+//     const rows = table.getElementsByTagName('tr');
+    
+//     const cellA = rows[Math.floor(a / 3)].getElementsByTagName('td')[a % 3];
+//     const cellB = rows[Math.floor(b / 3)].getElementsByTagName('td')[b % 3];
+//     const cellC = rows[Math.floor(c / 3)].getElementsByTagName('td')[c % 3];
+
+//     const lineColor = 'white'; // Ändere die Linienfarbe nach Bedarf
+
+//     // Zeichne die Siegerlinie, indem du den Hintergrund der Zellen änderst
+//     cellA.style.backgroundColor = lineColor;
+//     cellB.style.backgroundColor = lineColor;
+//     cellC.style.backgroundColor = lineColor;
+// }
+
+function drawWinningLine(combination) {
+    const lineColor = '#ffffff';
+    const lineWidth = 5;
+
+    const startCell = document.querySelectorAll(`td`)[combination[0]];
+    const endCell = document.querySelectorAll(`td`)[combination[2]];
+    const startRect = startCell.getBoundingClientRect();
+    const endRect = endCell.getBoundingClientRect();
+
+    const contentRect = document.getElementById('content').getBoundingClientRect();
+
+    const lineLength = Math.sqrt(
+        Math.pow(endRect.left - startRect.left, 2) + Math.pow(endRect.top - startRect.top, 2)
+    );
+    const lineAngle = Math.atan2(endRect.top - startRect.top, endRect.left - startRect.left);
+
+    const line = document.createElement('div');
+    line.style.position = 'absolute';
+    line.style.width = `${lineLength}px`;
+    line.style.height = `${lineWidth}px`;
+    line.style.backgroundColor = lineColor;
+    line.style.top = `${startRect.top + startRect.height / 2 - lineWidth / 2 - contentRect.top}px`;
+    line.style.left = `${startRect.left + startRect.width / 2 - contentRect.left}px`;
+    line.style.transform = `rotate(${lineAngle}rad)`;
+    line.style.transformOrigin = `top left`;
+    document.getElementById('content').appendChild(line);
 }
