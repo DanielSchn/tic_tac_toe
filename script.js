@@ -137,22 +137,6 @@ function generateCircleSVG() {
 }
 
 
-// function drawWinningLine(a, b, c) {
-//     const table = document.getElementsByTagName('table')[0];
-//     const rows = table.getElementsByTagName('tr');
-    
-//     const cellA = rows[Math.floor(a / 3)].getElementsByTagName('td')[a % 3];
-//     const cellB = rows[Math.floor(b / 3)].getElementsByTagName('td')[b % 3];
-//     const cellC = rows[Math.floor(c / 3)].getElementsByTagName('td')[c % 3];
-
-//     const lineColor = 'white'; // Ändere die Linienfarbe nach Bedarf
-
-//     // Zeichne die Siegerlinie, indem du den Hintergrund der Zellen änderst
-//     cellA.style.backgroundColor = lineColor;
-//     cellB.style.backgroundColor = lineColor;
-//     cellC.style.backgroundColor = lineColor;
-// }
-
 function drawWinningLine(combination) {
     const lineColor = '#ffffff';
     const lineWidth = 5;
@@ -180,3 +164,4 @@ function drawWinningLine(combination) {
     line.style.transformOrigin = `top left`;
     document.getElementById('content').appendChild(line);
 }
+
