@@ -41,13 +41,11 @@ function checkGameEnd() {
             return true;
         }
     }
-
     // Überprüfen, ob es ein Unentschieden gibt
     if (!fields.includes(null)) {
         // Das Spiel endet unentschieden
         return true;
     }
-
     return false;
 }
 
@@ -163,5 +161,25 @@ function drawWinningLine(combination) {
     line.style.transform = `rotate(${lineAngle}rad)`;
     line.style.transformOrigin = `top left`;
     document.getElementById('content').appendChild(line);
+
+    const tdElements = document.querySelectorAll('td');
+    for (const td of tdElements) {
+        td.removeAttribute('onclick');
+    }
 }
 
+
+function restartGame() {
+    fields = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+    ];
+    render();
+}
